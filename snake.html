@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+	<head>
+        <title>Snake on canvas</title>
+        <link href="snake.css" rel="Stylesheet" type="text/css" />
+        <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/themes/smoothness/jquery-ui.css" rel="Stylesheet" type="text/css" />
+		<script type="text/javascript" src="snake.js"></script>
+        <script type="text/javascript" src="SnakeScore.js"></script>
+        <script type="text/javascript" src="localStore.js"></script>
+        <script type="text/javascript" src="highScores.js"></script>
+        <script type="text/javascript" src="food.js"></script>
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/jquery-ui.min.js"></script>
+
+		<script type="text/javascript">
+		    $(function () {
+
+		        $(".score").text("0");
+
+		        $("#btnStart").click(function () {
+
+		            $(".score").text("0");
+		            SNK.controller.init();
+		            $(this).attr("disabled", true);
+		        });
+
+		        $("#btnSaveScore").click(function () {
+
+		            // get the user's name
+                    var username = $("#txtName").val();
+                    SNK.localStore.saveScore(username, $(".score").first().text());
+		        });
+
+		        SNK.foodEaten = function (score) {
+		            $(".score").text(score);
+		        };
+
+		        SNK.gameOver = function (score) {
+
+
+		            $("#btnStart").attr("disabled", false);
+		            $("#dialog").dialog("open");
+
+		        };
+
+		        $("#dialog").dialog({
+		            height: 300,
+		            width: 300,
+		            modal: true,
+		            autoOpen: false
+		        });
+		    });
+		</script>
+    </head>
+	<body>
+        <div>
+            <button id="btnStart">Start</button>
+            <p>Current Score: <span class="score"></span></p>
+        </div>
+
+        <div id="dialog" title="Snake - Game Over">
+	        <p>Well done, you scored <span class="score"></span></p>
+
+            <div>
+                <p>You can save your score</p>
+                <label for="txtName">Your Name:</label>
+                <input id="txtName" type="text" />
+                <button id="btnSaveScore">Save</button>
+            </div>
+        </div>
+
+        <div>
+		<canvas id="cnvSnake" width="300" height="300" />
+        </div>
+
+        <div>
+            <table id="tblHighScores">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Score</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                </tbody>
+            </table>
+        </div>
+        
+	</body>
+</html>
