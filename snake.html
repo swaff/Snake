@@ -4,31 +4,78 @@
         <title>Snake on canvas</title>
         <link href="styles/snake.css" rel="Stylesheet" type="text/css" />
         <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/themes/smoothness/jquery-ui.css" rel="Stylesheet" type="text/css" />
-		<script type="text/javascript" src="scripts/snake.js"></script>
+		<script type="text/javascript" src="scripts/namespace.js"></script>
+        <script type="text/javascript" src="scripts/snake.js"></script>
         <script type="text/javascript" src="scripts/SnakeScore.js"></script>
         <script type="text/javascript" src="scripts/localStore.js"></script>
         <script type="text/javascript" src="scripts/highScores.js"></script>
         <script type="text/javascript" src="scripts/food.js"></script>
+        <script type="text/javascript" src="scripts/highScoresRenderer.js"></script>
+        
 		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
 		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/jquery-ui.min.js"></script>
-
+        <script type="text/javascript" src="scripts/jquery.tmpl.min.js"></script>
 		<script type="text/javascript">
 		    $(function () {
 
+		        // start with a zero score
 		        $(".score").text("0");
+
+		        // initialise the buttons using jQuery UI
+		        $("#btnStart").button();
+		        $("#btnPause").button();
+
+		        // initially do not show the high scores
+		        $("#highScoresContainer").hide();
 
 		        $("#btnStart").click(function () {
 
+		            // reset the score
 		            $(".score").text("0");
+
+		            // start the game
 		            SNK.controller.init();
-		            $(this).attr("disabled", true);
+
+		            // disable the start button
+		            $(this).button({ disabled: true });
+		        });
+
+		        $("#btnPause").click(function () {
+
+		            // get the current label for the button
+		            var label = $(this).button("option", "label");
+
+		            // if pause pressed, then pause the game and set the button label to 'Continue'
+		            if (label === "Pause") {
+		                SNK.controller.pause();
+		                label = "Continue";
+		            } else {
+		                SNK.controller.go();
+		                label = "Pause";
+		            }
+
+		            // change the text of the button to the toggled value
+		            $(this).button("option", "label", label);
 		        });
 
 		        $("#btnSaveScore").click(function () {
 
 		            // get the user's name
-                    var username = $("#txtName").val();
-                    SNK.localStore.saveScore(username, $(".score").first().text());
+		            var username = $("#txtName").val();
+		            SNK.localStore.saveScore(username, $(".score").first().text());
+
+		            // get the high scores
+		            var highScores = SNK.highScores.getScores();
+
+		            if (highScores.length > 0) {
+
+		                // update the high scores table
+		                SNK.highScoresRenderer.render("highScores", "highScoresTemplate", highScores);
+		                $("#highScoresContainer").show();
+		            }
+
+		            // close the dialog
+		            $("#dialog").dialog("close");
 		        });
 
 		        SNK.foodEaten = function (score) {
@@ -37,10 +84,8 @@
 
 		        SNK.gameOver = function (score) {
 
-
-		            $("#btnStart").attr("disabled", false);
+		            $("#btnStart").button({ disabled: false });
 		            $("#dialog").dialog("open");
-
 		        };
 
 		        $("#dialog").dialog({
@@ -53,8 +98,12 @@
 		</script>
     </head>
 	<body>
+        <hgroup>
+            <h1>Snake on Canvas!</h1>
+        </hgroup>
         <div>
             <button id="btnStart">Start</button>
+            <button id="btnPause">Pause</button>
             <p>Current Score: <span class="score"></span></p>
         </div>
 
@@ -69,19 +118,36 @@
             </div>
         </div>
 
-        <div>
-		<canvas id="cnvSnake" width="300" height="300" />
+        <div id="canvasContainer">
+		    <canvas id="cnvSnake" width="300" height="300" />
         </div>
+        <aside id="rules">
+            <hgroup>
+                <h2>Rules</h2>
+            </hgroup>
+            <ul>
+                <li>Press Start</li>
+                <li>Using the arrow keys to move the direction of the snake</li>
+                <li>Collect food by moving the snake's head over the blue discs.</li>
+                <li>Pause the game at any time by pressing Pause, then press Continue to carry on.</li>
+            </ul>
+        </aside>
+        <div id="highScoresContainer">
 
-        <div>
-            <table id="tblHighScores">
+            <script id="highScoresTemplate" type="text/x-jquery-tmpl"> 
+                <tr>
+                    <td>${username}</td>
+                    <td>${highScore}</td>
+                </tr>
+            </script>
+            <table>
                 <thead>
                     <tr>
                         <th>Name</th>
                         <th>Score</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="highScores">
                     
                 </tbody>
             </table>

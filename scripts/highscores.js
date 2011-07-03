@@ -2,7 +2,7 @@ SNK.highScores = {};
 
 SNK.highScores = (function () {
 
-    var displayScores = function () {
+    var getScores = function () {
 
         // get all the SnakeScore objects from the local storage object
         var snakeScores = SNK.localStore.getSnakeScores(),
@@ -30,12 +30,12 @@ SNK.highScores = (function () {
             return y.highScore - x.highScore
         });
 
-        // render the array
+        // return the array
         return usernameScorePairs;
     };
 
     return {
-        get: displayScores
+        getScores: getScores
     };
 
 })();

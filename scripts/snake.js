@@ -1,6 +1,5 @@
 
-// create a namespace for the snake code
-SNK = {};
+
 
 SNK.canvasWidth = 300;
 SNK.canvasHeight = 300;
@@ -18,11 +17,21 @@ SNK.controller = (function () {
 		frameDuration = 300,
 		snake,
         food,
-        score = 0;
+        score = 0,
+        paused = false;
+
+    function pause() {
+        paused = true;
+    };
+
+    function go() {
+        paused = false;
+    };
 
     function init() {
 
         // get the canvas from the dom
+        paused = false;
         score = 0;
         var canvas = $("#cnvSnake");
         snakeContext = canvas[0].getContext('2d');
@@ -58,35 +67,44 @@ SNK.controller = (function () {
 
     function loop() {
 
-        snakeContext.clearRect(0, 0, SNK.canvasWidth, SNK.canvasHeight);
+        if (!paused) {
 
-        food.make(snakeContext);
-        snake.move();
-        snake.draw(snakeContext);
+            snakeContext.clearRect(0, 0, SNK.canvasWidth, SNK.canvasHeight);
 
-        if (snake.crashed()) {
+            food.make(snakeContext);
+            snake.move();
+            snake.draw(snakeContext);
 
-            SNK.gameOver();
+            if (snake.crashed()) {
+
+                SNK.gameOver();
+            }
+            else {
+                if (snake.hasEatenFood(food)) {
+
+                    // move the food, increase the snake length and increment the score
+                    food.move();
+                    snake.setJustEaten();
+                    score++;
+                    SNK.foodEaten(score);
+
+                    // increase the speed of the snake by reducing the frame rate, this really crude an limits the number 
+                    // of food items
+                    frameDuration--;
+                }
+                setTimeout(loop, frameDuration);
+            }
         }
         else {
-            if (snake.hasEatenFood(food)) {
-
-                // move the food, increase the snake length and increment the score
-                food.move();
-                snake.setJustEaten();
-                score++;
-                SNK.foodEaten(score);
-
-                // increase the speed of the snake by reducing the frame rate, this really crude an limits the number 
-                // of food items
-                frameDuration--;
-            }
             setTimeout(loop, frameDuration);
         }
     }
 
     return {
-        init: init
+        init: init,
+        go: go,
+        pause: pause
+
     };
 })();
 

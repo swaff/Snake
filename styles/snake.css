@@ -1,5 +1,17 @@
 ﻿body
 {
+    margin: auto 10% 10%;
+    font-family: 'Trebuchet MS';
+}
+
+@font-face {
+  font-family: SketchRockwell;
+  src: url('SketchRockwell.ttf');
+}
+
+h1 {
+  font-family: SketchRockwell;
+  font-size: 3.2em;
 }
 
 #cnvSnake
@@ -8,3 +20,40 @@
     border-width: 3px;
 }
 
+#canvasContainer
+{
+    float:left;
+}
+
+
+#rules
+{
+    width: 300px;
+    float:left;
+    margin-left: 50px;    
+    vertical-align: top;
+}
+
+#rules h2
+{
+    font-family: SketchRockwell;
+    font-size: 1.7em;       
+}
+
+#rules ul
+{
+    list-style: none;
+    padding: 0;
+}
+
+
+#rules ul li
+{
+    margin-left: 0;
+    margin-top: 5px;
+}
+
+#highScoresContainer
+{
+    clear:both;
+}
