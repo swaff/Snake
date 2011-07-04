@@ -14,6 +14,12 @@ h1 {
   font-size: 3.2em;
 }
 
+h2
+{
+    font-family: SketchRockwell;
+    font-size: 1.7em;       
+}
+
 #cnvSnake
 {
     border-style: solid;
@@ -34,12 +40,6 @@ h1 {
     vertical-align: top;
 }
 
-#rules h2
-{
-    font-family: SketchRockwell;
-    font-size: 1.7em;       
-}
-
 #rules ul
 {
     list-style: none;
@@ -58,6 +58,7 @@ h1 {
     clear:both;
 }
 
+/* Button Styles */
 .button 
 {
    border-top: 1px solid #706570;
@@ -90,4 +91,41 @@ h1 {
 {
    border-top-color: #1b435e;
    background: #1b435e;
+}
+
+/* Table Style */
+table {
+
+       color: #7F7F7F;
+       font: 0.8em/1.6em "Trebuchet MS",Verdana,sans-serif;
+       border-collapse: collapse;
+       border-right: 1px solid #CCC;
+       border-left: 1px solid #CCC;
+	   width: 300px;
+}
+
+th,td 
+{
+	border-left: 0;
+    padding: 10px
+}
+
+thead th
+{
+	background-color: #C30;
+	color: #FFB3A6;
+    text-align: center
+}
+
+/* Zebra striping for the even rows */
+tbody tr:nth-child(2n) 
+{
+    background-color: #F7F7F7;
+    color: #666
+}
+
+tbody tr:hover 
+{
+	background-color: #EEE;
+    color: #333
 }
