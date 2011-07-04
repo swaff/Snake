@@ -57,3 +57,37 @@ h1 {
 {
     clear:both;
 }
+
+.button 
+{
+   border-top: 1px solid #706570;
+   background: #1e1f1f;
+   background: -webkit-gradient(linear, left top, left bottom, from(#bfc5c9), to(#1e1f1f));
+   background: -moz-linear-gradient(top, #bfc5c9, #1e1f1f);
+   padding: 5.5px 11px;
+   -webkit-border-radius: 37px;
+   -moz-border-radius: 37px;
+   border-radius: 37px;
+   -webkit-box-shadow: rgba(0,0,0,1) 0 1px 0;
+   -moz-box-shadow: rgba(0,0,0,1) 0 1px 0;
+   box-shadow: rgba(0,0,0,1) 0 1px 0;
+   text-shadow: rgba(0,0,0,.4) 0 1px 0;
+   color: white;
+   font-size: 20px;
+   font-family: Helvetica, Arial, Sans-Serif;
+   text-decoration: none;
+   vertical-align: middle;
+}
+
+.button:hover 
+{
+   border-top-color: #dce6ed;
+   background: #dce6ed;
+   color: #55577a;
+}
+
+.button:active 
+{
+   border-top-color: #1b435e;
+   background: #1b435e;
+}

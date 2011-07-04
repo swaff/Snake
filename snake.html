@@ -21,10 +21,6 @@
 		        // start with a zero score
 		        $(".score").text("0");
 
-		        // initialise the buttons using jQuery UI
-		        $("#btnStart").button();
-		        $("#btnPause").button();
-
 		        // initially do not show the high scores
 		        $("#highScoresContainer").hide();
 
@@ -37,13 +33,13 @@
 		            SNK.controller.init();
 
 		            // disable the start button
-		            $(this).button({ disabled: true });
+		            $(this).attr( "disabled", true );
 		        });
 
 		        $("#btnPause").click(function () {
 
 		            // get the current label for the button
-		            var label = $(this).button("option", "label");
+		            var label = $(this).text();
 
 		            // if pause pressed, then pause the game and set the button label to 'Continue'
 		            if (label === "Pause") {
@@ -55,7 +51,7 @@
 		            }
 
 		            // change the text of the button to the toggled value
-		            $(this).button("option", "label", label);
+		            $(this).text(label);
 		        });
 
 		        $("#btnSaveScore").click(function () {
@@ -84,7 +80,7 @@
 
 		        SNK.gameOver = function (score) {
 
-		            $("#btnStart").button({ disabled: false });
+		            $("#btnStart").attr("disabled", false );
 		            $("#dialog").dialog("open");
 		        };
 
@@ -102,8 +98,8 @@
             <h1>Snake on Canvas!</h1>
         </hgroup>
         <div>
-            <button id="btnStart">Start</button>
-            <button id="btnPause">Pause</button>
+            <button id="btnStart" class="button">Start</button>
+            <button id="btnPause" class="button">Pause</button>
             <p>Current Score: <span class="score"></span></p>
         </div>
 
