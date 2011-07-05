@@ -256,6 +256,13 @@ SNK.snake = function () {
         // does the head coordinate equal the food's current position
         return positionsAreEqual(food.getCurrentPosition(), getHead());
     };
+	
+	/**
+		gets the array of positions that the snake currently occupies
+	*/
+	function getPositions(){
+		return positions;
+	};
 
     // return an object with pointers to the public methods.
     return {
