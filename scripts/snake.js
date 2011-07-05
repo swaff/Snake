@@ -65,6 +65,17 @@ SNK.controller = (function () {
         });
     };
 
+    /** 
+    Increases the speed of the snake by reducing the frame duration.
+    Does not go below 50
+    */
+    function increaseSpeed() {
+        if (frameDuration > 50) {
+            frameDuration -= 5;
+        }
+        console.log(frameDuration);
+    };
+
     function loop() {
 
         if (!paused) {
@@ -88,9 +99,8 @@ SNK.controller = (function () {
                     score++;
                     SNK.foodEaten(score);
 
-                    // increase the speed of the snake by reducing the frame rate, this really crude an limits the number 
-                    // of food items
-                    frameDuration--;
+                    // increase the speed of the snake by reducing the frame rate
+                    increaseSpeed();
                 }
                 setTimeout(loop, frameDuration);
             }
