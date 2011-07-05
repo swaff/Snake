@@ -176,3 +176,36 @@ test('return true if positions are equal', function () {
     // assert
     equals(equal, true, "Expecting value returned to be true");
 });
+
+module("positions.positionIsInPositionsArray");
+
+test("Returns false if the position is not in the array", function(){
+	// arrange
+	// create an array of test positions
+	var testPositions = [[1,1], [2,2]];
+
+	// create a known position at a different position as those in the array
+	var position = [3,3];
+
+	// act
+	var foundInArray = SNK.positions.positionIsInPositionsArray(position, testPositions);
+
+	// assert - this should be false
+	equals(foundInArray, false, "Not expecting to find position in the positionsArray");
+});
+
+
+test("Returns true if the position is in the array", function(){
+	// arrange
+	// create an array of test positions
+	var testPositions = [[1,1], [2,2]];
+
+	// create a known position at a position found in the array
+	var position = [2,2];
+
+	// act
+	var foundInArray = SNK.positions.positionIsInPositionsArray(position, testPositions);
+
+	// assert - this should be true
+	equals(foundInArray, true, "Expecting to find position in the positionsArray");
+});

@@ -8,7 +8,24 @@ SNK.positions = (function(){
 		return (positionA[0] === positionB[0]) & (positionA[1] === positionB[1]);
     };
 	
+	/**
+	 * Checks if the position is equal to any of the positions in the array
+	 * position: the position to compare to all those in the array
+	 * positionsArray: The array of positions to search through
+	 *
+	 * returns: true if the postition is found in the array
+	 */
+	var positionIsInPositionsArray = function(position, positionsArray){
+		for(var i = 0, len = positionsArray.length; i < len; i++){
+			if(areEqual(position, positionsArray[i])){
+				return true;
+			}
+		}
+		return false;
+	};
+
 	return {
-		areEqual: areEqual
+		areEqual: areEqual,
+		positionIsInPositionsArray: positionIsInPositionsArray
 	};
 }());
