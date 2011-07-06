@@ -47,7 +47,7 @@ SNK.localStore = (function () {
 
         var foundScores = localStorage["scores"];
 
-        if (foundScores !== null) {
+        if (foundScores !== null & foundScores !== undefined) {
             return JSON.parse(localStorage["scores"]);
         } else {
             return [];
