@@ -65,6 +65,17 @@ SNK.controller = (function () {
         });
     };
 
+    /** 
+    Increases the speed of the snake by reducing the frame duration.
+    Does not go below 50
+    */
+    function increaseSpeed() {
+        if (frameDuration > 50) {
+            frameDuration -= 5;
+        }
+        console.log(frameDuration);
+    };
+
     function loop() {
 
         if (!paused) {
@@ -83,14 +94,13 @@ SNK.controller = (function () {
                 if (snake.hasEatenFood(food)) {
 
                     // move the food, increase the snake length and increment the score
-                    food.move();
+                    food.move(snake.getPositions());
                     snake.setJustEaten();
                     score++;
                     SNK.foodEaten(score);
 
-                    // increase the speed of the snake by reducing the frame rate, this really crude an limits the number 
-                    // of food items
-                    frameDuration--;
+                    // increase the speed of the snake by reducing the frame rate
+                    increaseSpeed();
                 }
                 setTimeout(loop, frameDuration);
             }
@@ -195,7 +205,7 @@ SNK.snake = function () {
     };
 
     /**
-    Checks if any of the coordinates that the snake occupies are the same as any of the coordinates of the wall
+        Checks if any of the coordinates that the snake occupies are the same as any of the coordinates of the wall
     */
     function hasCrashedIntoWall() {
         var wallMinX = 0,
@@ -213,40 +223,39 @@ SNK.snake = function () {
     };
 
     /**
-    Returns the item of the positions array at position zero which represents the snake's head
+        Returns the item of the positions array at position zero which represents the snake's head
     */
     function getHead() {
         return positions[0];
     };
 
+    /**
+        Has the snakes head moved onto part of the snake's body
+    */
     function hasEatenSelf() {
         // has the head of the snake occupied another block of the snake?
-        var head = getHead();
-        var body = positions.slice(1);
+        var head = getHead(),
+        body = positions.slice(1),
+        hasEaten = false;
 
-        for (var i = 0, len = body.length; i < len; i++) {
-
-            var bodyBlock = body[i];
-
-            if (positionsAreEqual(bodyBlock, head)) {
-                return true;
-            }
-        };
-
-        // no body blocks are the same as the head, the snake is not eating itself.
-        return false;
+        // has the snakes head touched it's body
+        hasEaten = SNK.positions.positionIsInPositionsArray(head, body);
+        return hasEaten;
     };
 
     /**
-    takes two arrays each expected with 2 items representing an X and Y coordinate and compares the values,
-    returning true if both objects have the same X and Y values
+        takes two arrays each expected with 2 items representing an X and Y coordinate and compares the values,
+        returning true if both objects have the same X and Y values
     */
     function positionsAreEqual(positionA, positionB) {
         return (positionA[0] === positionB[0]) & (positionA[1] === positionB[1]);
     };
 
+    /**
+        Has the snake crashed into a wall, or eaten itself
+    */
     function crashed() {
-        return hasCrashedIntoWall() | hasEatenSelf();
+    return hasCrashedIntoWall() | hasEatenSelf();
     };
 
     /**
@@ -257,6 +266,13 @@ SNK.snake = function () {
         return positionsAreEqual(food.getCurrentPosition(), getHead());
     };
 
+    /**
+    gets the array of positions that the snake currently occupies
+    */
+    function getPositions() {
+        return positions;
+    };
+
     // return an object with pointers to the public methods.
     return {
         draw: draw,
@@ -264,11 +280,7 @@ SNK.snake = function () {
         changeDirection: changeDirection,
         crashed: crashed,
         hasEatenFood: hasEatenFood,
-        setJustEaten: setJustEaten
+        setJustEaten: setJustEaten,
+        getPositions: getPositions
     };
-
 };
-
-
-
-

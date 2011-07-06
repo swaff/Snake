@@ -21,12 +21,19 @@ SNK.food = function () {
 
     /**
     Creates a new positions for the item of snake food 
+
+    occupiedPositions: the positions on the board (occupied by the snake) that are not available
+    to place the food
     */
-    var move = function () {
+    var move = function (occupiedPositions) {
         var blocks = SNK.canvasWidth / SNK.blockSize;
 
         position[0] = getRandomNumber(0, blocks);
         position[1] = getRandomNumber(0, blocks);
+
+        if (SNK.positions.positionIsInPositionsArray(position, occupiedPositions)) {
+            move(occupiedPositions);
+        }
     };
 
     var getCurrentPosition = function () {

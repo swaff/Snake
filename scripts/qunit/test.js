@@ -1,3 +1,5 @@
+module("SnakeScore.getUsername");
+
 test('getUsername()', function () {
 
     // arrange
@@ -10,6 +12,8 @@ test('getUsername()', function () {
     // assert
     equals(foundUsername, "user", "returned user name should be 'user'");
 });
+
+module("SnakeScore.setScores");
 
 test('setScores()', function () {
 
@@ -29,6 +33,8 @@ test('setScores()', function () {
     equals(returnedScores, scores, "setScores should set an array of scores");
 });
 
+module("SnakeScore.getScores");
+
 test("getScores()", function () {
 
     // arrange
@@ -47,7 +53,9 @@ test("getScores()", function () {
     equals(returnedScores, scores, "getScores should return the expected results");
 });
 
-test("addLatestScore adds single item", function () {
+module("SnakeScore.addLatestScore");
+
+test("adds single item", function () {
 
     // arrange
     // create a SnakeScore object and add a latest score
@@ -65,7 +73,7 @@ test("addLatestScore adds single item", function () {
     equals(scores.length, expected.length, "addLatestScore should add expected single item");
 });
 
-test("addLatestScore adds three items in descending order", function () {
+test("adds three items in descending order", function () {
 
     // arrange
     var score = new SNK.SnakeScore("testing");
@@ -84,7 +92,7 @@ test("addLatestScore adds three items in descending order", function () {
     equals(scores[2], 1, "expect item at index 2 = 1");
 });
 
-test("addLatestScore adds only shows top three scores in descending order", function () {
+test("adds only shows top three scores in descending order", function () {
 
     // arrange
     var score = new SNK.SnakeScore("testing");
@@ -106,8 +114,9 @@ test("addLatestScore adds only shows top three scores in descending order", func
     equals(scores[2], 10, "expect item at index 2 = 100");
 });
 
+module("SnakeScore.getHighScore");
 
-test("getHighScore returns the highest score", function () {
+test("returns the highest score", function () {
 
     // arrange
     var score = new SNK.SnakeScore("testing");
@@ -126,7 +135,7 @@ test("getHighScore returns the highest score", function () {
     equals(highScore, 1000, "expect 1000 back from getHighScore");
 });
 
-test("getHighScore returns zero for no scores", function () {
+test("returns zero for no scores", function () {
 
     // arrange
     var score = new SNK.SnakeScore("testing");
@@ -136,4 +145,67 @@ test("getHighScore returns zero for no scores", function () {
 
     // assert
     equals(highScore, 0, "expect 0 back from getHighScore if no scores added");
+});
+
+module("positions.areEqual");
+
+test('return false if positions are not equal', function () {
+
+    // arrange
+    // create two positions
+	var first = [1,2],
+		second = [2,3];
+		
+    // act
+    var equal = SNK.positions.areEqual(first, second);
+
+    // assert
+    equals(equal, false, "Expecting value returned to be false");
+});
+
+test('return true if positions are equal', function () {
+
+    // arrange
+    // create two positions
+	var first = [1,2],
+		second = [1,2];
+		
+    // act
+    var equal = SNK.positions.areEqual(first, second);
+
+    // assert
+    equals(equal, true, "Expecting value returned to be true");
+});
+
+module("positions.positionIsInPositionsArray");
+
+test("Returns false if the position is not in the array", function(){
+	// arrange
+	// create an array of test positions
+	var testPositions = [[1,1], [2,2]];
+
+	// create a known position at a different position as those in the array
+	var position = [3,3];
+
+	// act
+	var foundInArray = SNK.positions.positionIsInPositionsArray(position, testPositions);
+
+	// assert - this should be false
+	equals(foundInArray, false, "Not expecting to find position in the positionsArray");
+});
+
+
+test("Returns true if the position is in the array", function(){
+	// arrange
+	// create an array of test positions
+	var testPositions = [[1,1], [2,2]];
+
+	// create a known position at a position found in the array
+	var position = [2,2];
+
+	// act
+	var foundInArray = SNK.positions.positionIsInPositionsArray(position, testPositions);
+
+	// assert - this should be true
+	equals(foundInArray, true, "Expecting to find position in the positionsArray");
 });
